@@ -252,12 +252,12 @@ function(artifactory_fetch result_var)
         message(STATUS "Looking for prebuilt artifacts on Artifactory server:")
         set_property(GLOBAL PROPERTY _artifactory_fetch_message_printed 1)
     endif()
-
+	
     set(artifactory_log ${ARTIFACTORY_CACHE_DIR}/artifactory.log)
 
     execute_process(
         COMMAND
-            ${CMAKE_SOURCE_DIR}/support/scripts/artifactory-download
+            python ${CMAKE_SOURCE_DIR}/support/scripts/artifactory-download
                 ${ARTIFACT_REPO}
                 ${ARTIFACT_GROUP}
                 ${ARTIFACT_NAME}
@@ -274,8 +274,8 @@ function(artifactory_fetch result_var)
         WORKING_DIRECTORY
             ${ARTIFACTORY_CACHE_DIR}
     )
-
-    file(APPEND "${download_output}\n")
+	#message(STATUS ${artifactory_log})
+    #ile(APPEND ${artifactory_log} "${download_error}\n")
 
     if(NOT download_result EQUAL 0)
         message(FATAL_ERROR
@@ -420,14 +420,14 @@ function(_artifactory_check_version version_string)
     # * is allowed, and this lets the user share artifacts between different
     # version numbers. This makes sense if they are also filtering by
     # properties e.g. by commit SHA1 of the source repo.
-    set(invalid_chars "\]\[/\\")
+	#set(invalid_chars "\]\[/\\")
 
-    if(${version_string} MATCHES "[${invalid_chars}]")
-        message(FATAL_ERROR
-            "Version string '${version_string}' contains invalid characters. "
-            "The following characters are not allowed in Artifactory version "
-            "strings: ${invalid_chars}")
-    endif()
+    #if(${version_string} MATCHES "[${invalid_chars}]")
+    #    message(FATAL_ERROR
+    #        "Version string '${version_string}' contains invalid characters. "
+    #        "The following characters are not allowed in Artifactory version "
+    #        "strings: ${invalid_chars}")
+    #endif()
 endfunction()
 
 function(_artifactory_check_upload_version version_string)
