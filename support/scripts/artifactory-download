@@ -38,8 +38,8 @@ class MavenPOMReader(object):
         try:
             self.pom = xml.parse(filename)
         except Exception as e:
-            raise RuntimeError("Error while loading Maven POM %s: %s" %
-                               (self.pom, e))
+            raise RuntimeError("Error while loading Maven POM: %s" %
+                               (e))
         self.filename = filename
 
         self.project_element = self.pom.getroot()
@@ -156,7 +156,7 @@ def download(repo, path, pattern, artifactory_cli='art', properties={}):
 
     # We pass --split-count=0 to work around
     # https://github.com/JFrogDev/artifactory-cli-go/issues/7
-    command = [artifactory_cli, 'download', '--split-count=0'] + props_arg + [
+    command = [artifactory_cli, 'rt','download', '--split-count=0'] + props_arg + [
                repo + path + '/' + pattern]
     logging.debug(' '.join(command))
 
