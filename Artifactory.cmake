@@ -44,7 +44,8 @@ if(ARTIFACTORY_SUBMIT)
     add_custom_target(artifactory-clean)
 endif()
 
-# ::
+set(ARTIFACTORY_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR})
+
 #
 #    artifactory_add_artifact(<directory>
 #                             LOCAL_TARGET <target-name>
@@ -257,7 +258,7 @@ function(artifactory_fetch result_var)
 
     execute_process(
         COMMAND
-            python ${CMAKE_SOURCE_DIR}/support/scripts/artifactory-download
+            python ${ARTIFACTORY_CMAKE_DIR}/support/scripts/artifactory-download
                 ${ARTIFACT_REPO}
                 ${ARTIFACT_GROUP}
                 ${ARTIFACT_NAME}
@@ -378,7 +379,7 @@ function(artifactory_upload name)
     add_custom_target(${name}
         # This deliberately does not depend on ${ARTIFACT_LOCAL_TARGET}.
         COMMAND
-            ${CMAKE_SOURCE_DIR}/support/scripts/artifactory-upload
+            ${ARTIFACTORY_CMAKE_DIR}/support/scripts/artifactory-upload
                 ${ARTIFACT_REPO}
                 ${ARTIFACT_GROUP}
                 ${ARTIFACT_NAME}
@@ -444,14 +445,14 @@ function(_artifactory_check_upload_version version_string)
     # artifactory-download script expects this format and will break in weird
     # ways if it is not followed.
 
-    if(NOT ${version_string} MATCHES "^[^-]\+-[^-]\+-[^-]\+$")
-        message(FATAL_ERROR
-            "Version string '${version_string}' does not follow the correct "
-            "form. When uploading artifacts you must have a version string "
-            "following the form 'NAME-YYYYMMDD.hhmmss-N', for example "
-            "'master-20160427.075407-1'. There must be no dashes in the base "
-            "version string and exactly 2 dashes in the string as a whole.")
-    endif()
-
-    _artifactory_check_version(${version_string})
+#    if(NOT ${version_string} MATCHES "^[^-]\+-[^-]\+-[^-]\+$")
+#        message(FATAL_ERROR
+#            "Version string '${version_string}' does not follow the correct "
+#            "form. When uploading artifacts you must have a version string "
+#            "following the form 'NAME-YYYYMMDD.hhmmss-N', for example "
+#            "'master-20160427.075407-1'. There must be no dashes in the base "
+#            "version string and exactly 2 dashes in the string as a whole.")
+#    endif()
+#
+#    _artifactory_check_version(${version_string})
 endfunction()
