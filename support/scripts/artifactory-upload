@@ -188,7 +188,7 @@ def upload(filename, remote_path, artifactory_cli='art', properties=None):
         props = ('%s=%s' % (key, value) for key, value in properties.items())
         props_arg = ['--props=%s' % ';'.join(props)]
 
-    command = [artifactory_cli, 'upload', os.path.basename(filename),
+    command = [artifactory_cli, 'rt', 'upload', os.path.basename(filename),
                remote_path] + props_arg
     print ' '.join(command)
     subprocess.check_call(command, cwd=os.path.dirname(filename))
