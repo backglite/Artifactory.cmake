@@ -253,7 +253,7 @@ function(artifactory_fetch result_var)
         message(STATUS "Looking for prebuilt artifacts on Artifactory server:")
         set_property(GLOBAL PROPERTY _artifactory_fetch_message_printed 1)
     endif()
-	
+
     set(artifactory_log ${ARTIFACTORY_CACHE_DIR}/artifactory.log)
 
     execute_process(
@@ -283,7 +283,16 @@ function(artifactory_fetch result_var)
             "${download_error}See ${artifactory_log} for more information.")
     endif()
 
-    set(${result_var} "${download_files}" PARENT_SCOPE)
+    # strip out potentialy empty result which is returned as \lf
+    set(result_files "")
+    foreach (file ${download_files})
+        string(STRIP ${file} strip_file)
+        if (strip_file)
+            list(APPEND result_files ${strip_file})
+        endif ()
+    endforeach ()
+
+    set(${result_var} "${result_files}" PARENT_SCOPE)
 endfunction()
 
 # ::
