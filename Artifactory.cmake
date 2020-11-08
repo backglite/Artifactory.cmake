@@ -258,7 +258,7 @@ function(artifactory_fetch result_var)
 
     execute_process(
         COMMAND
-            python ${ARTIFACTORY_CMAKE_DIR}/support/scripts/artifactory-download
+            ${ARTIFACTORY_CMAKE_DIR}/support/scripts/artifactory-download
                 ${ARTIFACT_REPO}
                 ${ARTIFACT_GROUP}
                 ${ARTIFACT_NAME}
@@ -275,8 +275,8 @@ function(artifactory_fetch result_var)
         WORKING_DIRECTORY
             ${ARTIFACTORY_CACHE_DIR}
     )
-	#message(STATUS ${artifactory_log})
-    #ile(APPEND ${artifactory_log} "${download_error}\n")
+	message(STATUS ${artifactory_log})
+    file(APPEND ${artifactory_log} "${download_error}\n")
 
     if(NOT download_result EQUAL 0)
         message(FATAL_ERROR

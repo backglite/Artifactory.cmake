@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # artifactory-upload: Helper tool for uploading artifacts to Artifactory.
 #
 # Copyright 2016 Raumfeld
